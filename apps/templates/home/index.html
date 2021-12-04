@@ -42,8 +42,21 @@
             <div class="overflow-hidden position-relative border-radius-xl bg-cover h-100" style="background-image: url('/static/assets/img/ivancik.jpg');">
               <span class="mask bg-gradient-dark"></span>
               <div class="card-body position-relative z-index-1 d-flex flex-column h-100 p-3">
-                <h5 class="text-white font-weight-bolder mb-4 pt-2">Work with the rockets</h5>
-                <p class="text-white">Wealth creation is an evolutionarily recent positive-sum game. It is all about who take the opportunity first.</p>
+                <div class="ms-md-auto ps-md-3 d-flex align-items-center">
+                    <form action = "" method = "POST" 
+                      enctype = "multipart/form-data">
+                      <label class="btn bg-gradient-primary my-1 me-1">
+                        <input type="file" class="hide_file"/>
+                        File Upload
+                      </label>
+                      <!-- <input type = "file" name = "file"class="btn bg-gradient-primary my-1 me-1"  /> -->
+                      <!-- <input type = "submit" class="btn bg-gradient-primary my-1 me-1"/> -->
+                      <button type="submit" class="btn bg-gradient-primary my-1 me-1">Submit</button>
+                    </form>
+                    <!-- <button class="btn bg-gradient-primary my-1 me-1">Search</button> -->
+                </div>
+
+                
                 <a class="text-white text-sm font-weight-bold mb-0 icon-move-right mt-auto" href="javascript:;">
                   Read More
                   <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true"></i>

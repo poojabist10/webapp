@@ -9039,6 +9039,9 @@ label,
 .bg-gradient-primary {
   background-image: linear-gradient(310deg, #7928CA 0%, #FF0080 100%); }
 
+  .hide_file {
+    position: absolute;    z-index: 1000;    opacity: 0;    cursor: pointer;    right: 0;    top: 0;    height: 100%;    font-size: 24px;    width: 100%; }
+
 .bg-gradient-secondary {
   background-image: linear-gradient(310deg, #627594 0%, #A8B8D8 100%); }
 
