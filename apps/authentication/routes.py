@@ -4,6 +4,8 @@ Copyright (c) 2019 - present AppSeed.us
 """
 
 from flask import render_template, redirect, request, url_for
+import os
+from werkzeug.security import generate_password_hash
 from flask_login import (
     current_user,
     login_user,
@@ -12,9 +14,8 @@ from flask_login import (
 
 from apps import db, login_manager
 from apps.authentication import blueprint
-from apps.authentication.forms import LoginForm, CreateAccountForm
+from apps.authentication.forms import LoginForm, CreateAccountForm, UploadForm
 from apps.authentication.models import Users
-
 from apps.authentication.util import verify_pass
 
 
@@ -96,6 +97,39 @@ def register():
 def logout():
     logout_user()
     return redirect(url_for('authentication_blueprint.login'))
+
+
+@blueprint.route('/index', methods=['POST'])
+def upload_files():
+    uploaded_file = request.files['file']
+    filename = uploaded_file.filename
+    if filename != '':
+        
+        # file_ext = os.path.splitext(filename)[1]
+        # if file_ext not in app.config['UPLOAD_EXTENSIONS'] or \
+        #         file_ext != validate_image(uploaded_file.stream):
+        #     abort(400)
+        # uploaded_file.save(os.path.join('static/avatars', filename))
+        uploaded_file.save(filename)
+    # return redirect(url_for('home_blueprint.index'))
+    return redirect(url_for('authentication_blueprint.login'))
+    
+
+# def upload_file():
+#     upload_form = UploadForm(request.form)
+#     if 'login' in request.form:
+#     if request.method == 'POST':
+#         f = request.files['file']
+#         f.save(f.filename)
+        
+
+#         # # Something (user or pass) is not ok
+#         # return render_template('accounts/login.html',
+#         #                        msg='Wrong user or password',
+#         #                        form=login_form)
+
+ 
+#     return redirect(url_for('home_blueprint.index'))
 
 
 # Errors
