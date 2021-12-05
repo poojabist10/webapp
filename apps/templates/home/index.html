@@ -23,6 +23,23 @@
                     <h4 class="font-weight-bolder">Retail UI Dashboard</h4>
                     <p class="mb-5">Upload csv file data an click submit button to see the sample data Pulls and for interactive Dashboard on data</p>
                     <p class="mb-5">Please note that it takes a while for the file to upload, before clicking submit</p>
+                    <div class="card-header pb-0 text-left bg-transparent">
+                      <h4 class="text-info text-gradient">
+                          {% if msg %}
+                              {{ msg | safe }}
+                          {% endif %} 
+                          {% if msgs %}
+                              {{ msgs | safe }}
+                          {% endif %} 
+                      </h4>
+                      <!-- <p class="mb-0">
+                          {% if msg %}
+                              {{ msg | safe }}
+                          {% else %}
+                              Upload correct File
+                          {% endif %}                  
+                      </p> -->
+                    </div>
                     <div class="ms-md-auto ps-md-3 d-flex align-items-center">
                       <form action = "" method = "POST"  enctype = "multipart/form-data">
                         <label class="btn bg-gradient-primary my-1 me-1">

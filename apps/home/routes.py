@@ -7,10 +7,16 @@ from apps.home import blueprint
 from flask import render_template, request, redirect, url_for, session
 from flask_login import login_required
 from jinja2 import TemplateNotFound
+from apps.authentication.forms import UploadForm
+from apps.authentication.models import Users
 import os
 import csv
 import pandas as pd
 from sqlalchemy import create_engine, types
+import mysql.connector as mysql
+import matplotlib.pyplot as plt
+from tabulate import tabulate
+import plotly.express as px
 
 
 @blueprint.route('/index')
@@ -61,11 +67,27 @@ def get_segment(request):
 
 @blueprint.route('/index', methods=['POST'])
 def upload_files():
+    upload_form = UploadForm(request.form)
+    # form = Nameform()
+
     uploaded_file = request.files['file']
     filename = uploaded_file.filename
     if filename != '':
         uploaded_file.save(os.path.join(session['username'],filename))
-        mysqlpush(filename)
+        status = mysqlpush(filename)
+        if 'not' in status:
+            return render_template('home/index.html',
+                                   msgs='Please Upload Correct File',
+                                   success=False,
+                                   segment='index',
+                                   form=upload_form)
+        if 'Successfully' in status:
+            return render_template('home/index.html',
+                                   msg=status,
+                                   success=True,
+                                   segment='index',
+                                   form=upload_form)
+           
 
     return redirect(url_for('home_blueprint.index'))
     
@@ -78,7 +100,16 @@ def mysqlpush(filename):
     df.columns = df.columns.str.strip()
 
     if 'transactions' in filename:
-
-        df.to_sql('transactions',con=engine,index=False,if_exists='append',method='multi',chunksize=100000) 
-
+        df.to_sql('transactions',con=engine,index=False,if_exists='append',method='multi',chunksize=100000)
+        return "Successfully updated transactions the data in Azure MySQL" 
+    elif 'products' in filename:
+        df.to_sql('products',con=engine,index=False,if_exists='append',method='multi',chunksize=100000)
+        return "Successfully updated products the data in Azure MySQL" 
+    elif 'households' in filename:
+        df.to_sql('households',con=engine,index=False,if_exists='append',method='multi',chunksize=100000) 
+        return "Successfully updated households the data in Azure MySQL" 
+    else:
+        return "not success"
+    
+    return "Successfully updated the data in Azure MySQL"
 
