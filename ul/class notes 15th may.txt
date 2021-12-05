@@ -1,0 +1,35 @@
+Amar Sir Class 
+Date: 5/15/17
+
+1. thrift servies- makes two services talk to each other without any programming language barrier. i.e. users using diff. programming languages can talk to each other.
+
+2. jdbc vs odbc  (slide 23 of Hive Training)
+
+3. derby in hive is the metastore. 
+
+4. for interview - slide 25 is imp. ( hive aint a part of hadoop)
+
+5. Types of tables - internal and external
+
+6. Data vs scheme in dbms ?
+
+7. schema points to a location inthe data base
+
+8. internal table- tightly coupled- we can directly access the db.so if the db is dropped , then data is lost.
+
+9. external table-loosely coupled-- we only interact with the schema ,, so even if we delete schema, we wont loose the data in db.  
+  ( refer to slides 26,27)
+
+10.epoch time ( time from jan 1 , 1970 till now (unix release)).
+
+11. epoch second.
+
+12. pg 36 - map here aint map reduce , but table map.
+
+13.chek how bit wise AND  is performed in computer, e.g.: 8 & 9
+
+14.partitions--directories
+   bucketing -- files
+
+
+

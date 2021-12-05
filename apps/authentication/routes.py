@@ -3,7 +3,7 @@
 Copyright (c) 2019 - present AppSeed.us
 """
 
-from flask import render_template, redirect, request, url_for
+from flask import render_template, redirect, request, url_for, session
 import os
 from werkzeug.security import generate_password_hash
 from flask_login import (
@@ -17,6 +17,7 @@ from apps.authentication import blueprint
 from apps.authentication.forms import LoginForm, CreateAccountForm, UploadForm
 from apps.authentication.models import Users
 from apps.authentication.util import verify_pass
+import os
 
 
 @blueprint.route('/')
@@ -34,6 +35,7 @@ def login():
         # read form data
         username = request.form['username']
         password = request.form['password']
+        session['username'] = username
 
         # Locate user
         user = Users.query.filter_by(username=username).first()
@@ -62,6 +64,7 @@ def register():
 
         username = request.form['username']
         email = request.form['email']
+        session['username'] = username
 
         # Check usename exists
         user = Users.query.filter_by(username=username).first()
@@ -84,6 +87,9 @@ def register():
         db.session.add(user)
         db.session.commit()
 
+        # Create a directory for user
+        os.makedirs(session['username'])
+
         return render_template('accounts/register.html',
                                msg='User created please <a href="/login">login</a>',
                                success=True,
@@ -99,20 +105,22 @@ def logout():
     return redirect(url_for('authentication_blueprint.login'))
 
 
-@blueprint.route('/index', methods=['POST'])
-def upload_files():
-    uploaded_file = request.files['file']
-    filename = uploaded_file.filename
-    if filename != '':
+# @blueprint.route('/index', methods=['POST'])
+# def upload_files():
+#     uploaded_file = request.files['file']
+#     filename = uploaded_file.filename
+#     if filename != '':
         
-        # file_ext = os.path.splitext(filename)[1]
-        # if file_ext not in app.config['UPLOAD_EXTENSIONS'] or \
-        #         file_ext != validate_image(uploaded_file.stream):
-        #     abort(400)
-        # uploaded_file.save(os.path.join('static/avatars', filename))
-        uploaded_file.save(filename)
-    # return redirect(url_for('home_blueprint.index'))
-    return redirect(url_for('authentication_blueprint.login'))
+#         # file_ext = os.path.splitext(filename)[1]
+#         # if file_ext not in app.config['UPLOAD_EXTENSIONS'] or \
+#         #         file_ext != validate_image(uploaded_file.stream):
+#         #     abort(400)
+#         # uploaded_file.save(os.path.join('static/avatars', filename))
+#         # os.makedirs(session['user'])
+#         os.makedirs('ul')
+#         uploaded_file.save(os.path.join('ul',filename))
+#     # return redirect(url_for('home_blueprint.index'))
+#     return redirect(url_for('authentication_blueprint.login'))
     
 
 # def upload_file():
